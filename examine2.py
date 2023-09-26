@@ -19,11 +19,8 @@ for record in records:
 
 for section in sections:
     for sectionItem in section:
-      if hasattr(sectionItem, 'Section'):
-        dataSection=sectionItem['Section']   
-        dataSections.append(dataSection)
-      if hasattr(sectionItem, 'Information'):
-        dataSection=sectionItem['Information']   
-        dataSections.append(dataSection)        
+        if 'Section' in sectionItem:
+          dataSection = sectionItem['Section']
+          dataSections.append(dataSection)
 
 dh = data.head()
