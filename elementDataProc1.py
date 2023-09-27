@@ -42,5 +42,6 @@ compounds = jp.search( "[6]", sections)
 isotopes = jp.search( "[6]", sections)
 
 
-doc_id = coll.insert_one(identifiers).inserted_id
+# doc_id = coll.insert_one(identifiers).inserted_id
+doc_ids = coll.insert_many(references).inserted_ids
 print(doc_id)
