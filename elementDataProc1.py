@@ -3,20 +3,35 @@
 # Write selected sections and subsections to a Mongo collection
 
 # Local file is ELEMENTS_v2.json
-# MongoDB db_name is 
-# MongoDB coll_name is 
+# MongoDB db_name is Elements_PubChem
+# MongoDB coll_name is ElementSections
 
-import numpy as np
 import pandas as pd
 import jmespath as jp
 import json
 from pymongo import MongoClient
 
 client = MongoClient('mongodb://192.168.1.239:27017/')
-
 db = client.Elements_PubChem
 coll = db.ElementSections
 
+def flatten_json(y):
+    out = {}
+
+    def flatten(x, name=''):
+        if type(x) is dict:
+            for a in x:
+                flatten(x[a], name + a + '_')
+        elif type(x) is list:
+            i = 0
+            for a in x:
+                flatten(a, name + str(i) + '_')
+                i += 1
+        else:
+            out[str(name[:-1])] = str(x)
+
+    flatten(y)
+    return out
 
 def getRecord(recordNumber, sourceData):
     queryStr = "[*].Record | [?RecordNumber == `" + str(recordNumber) + "`]"
@@ -41,7 +56,14 @@ sources = jp.search( "[5]", sections)
 compounds = jp.search( "[6]", sections)
 isotopes = jp.search( "[6]", sections)
 
+# identifiers_norm = pd.json_normalize(identifiers, record_path=['Section']).values().tolist()
+# identifiers_norm = pd.json_normalize(identifiers, record_path=['Section'], meta = ['TOCHeading', 'Description'], record_prefix='_').to_json()
+
+identifiers_fl = flatten_json(identifiers)
+references_fl = flatten_json(references)
+doc_id = coll.insert_one(identifiers_fl).inserted_id
+doc_id = coll.insert_one(references_fl).inserted_id
 
 # doc_id = coll.insert_one(identifiers).inserted_id
-doc_ids = coll.insert_many(references).inserted_ids
+# doc_ids = coll.insert_many(references).inserted_ids
 print(doc_id)
