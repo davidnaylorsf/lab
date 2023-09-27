@@ -41,29 +41,31 @@ def getRecord(recordNumber, sourceData):
 with open('ELEMENTS_v2.json') as f:
     data = json.load(f)
 
-record = getRecord(18, data)
+for recordNumber in range(1, 6):
 
-sections = jp.search("[0].Section" , record)
-references = jp.search("[0].Reference" , record)
+    record = getRecord(recordNumber, data)
 
-TOCHeadings = jp.search("[*].TOCHeading", sections)
-identifiers = jp.search( "[0]", sections)
-properties = jp.search( "[1]", sections)
-history = jp.search( "[2]", sections)
-description = jp.search( "[3]", sections)
-uses = jp.search( "[4]", sections)
-sources = jp.search( "[5]", sections)
-compounds = jp.search( "[6]", sections)
-isotopes = jp.search( "[6]", sections)
+    sections = jp.search("[0].Section" , record)
+    TOCHeadings = jp.search("[*].TOCHeading", sections)
 
-# identifiers_norm = pd.json_normalize(identifiers, record_path=['Section']).values().tolist()
-# identifiers_norm = pd.json_normalize(identifiers, record_path=['Section'], meta = ['TOCHeading', 'Description'], record_prefix='_').to_json()
+    identifiers = flatten_json(jp.search( "[0]", sections))
+    properties = flatten_json(jp.search( "[1]", sections))
+    history = flatten_json(jp.search( "[2]", sections))
+    description = flatten_json(jp.search( "[3]", sections))
+    uses = flatten_json(jp.search( "[4]", sections))
+    sources = flatten_json(jp.search( "[5]", sections))
+    compounds = flatten_json(jp.search( "[6]", sections))
+    isotopes = flatten_json(jp.search( "[6]", sections))
+    references = flatten_json(jp.search("[0].Reference" , record))
 
-identifiers_fl = flatten_json(identifiers)
-references_fl = flatten_json(references)
-doc_id = coll.insert_one(identifiers_fl).inserted_id
-doc_id = coll.insert_one(references_fl).inserted_id
+    identifiers_id = db.Identifiers.insert_one(identifiers).inserted_id
+    properties_id = db.Properties.insert_one(properties).inserted_id
+    history_id = db.History.insert_one(history).inserted_id
+    description_id = db.Description.insert_one(description).inserted_id
+    uses_id = db.Uses.insert_one(uses).inserted_id
+    sources_id = db.Sources.insert_one(sources).inserted_id
+    compounds_id = db.Compounds.insert_one(compounds).inserted_id
+    isotopes_id = db.Isotopes.insert_one(isotopes).inserted_id
+    references_id = db.References.insert_one(references).inserted_id
 
-# doc_id = coll.insert_one(identifiers).inserted_id
-# doc_ids = coll.insert_many(references).inserted_ids
-print(doc_id)
+print(identifiers_id)
