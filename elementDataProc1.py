@@ -41,22 +41,35 @@ def getRecord(recordNumber, sourceData):
 with open('ELEMENTS_v2.json') as f:
     data = json.load(f)
 
-for recordNumber in range(6, 21):
+for recordNumber in range(2, 4):
 
     record = getRecord(recordNumber, data)
 
     sections = jp.search("[0].Section" , record)
     TOCHeadings = jp.search("[*].TOCHeading", sections)
 
-    identifiers = flatten_json(jp.search( "[0]", sections))
-    properties = flatten_json(jp.search( "[1]", sections))
-    history = flatten_json(jp.search( "[2]", sections))
-    description = flatten_json(jp.search( "[3]", sections))
-    uses = flatten_json(jp.search( "[4]", sections))
-    sources = flatten_json(jp.search( "[5]", sections))
-    compounds = flatten_json(jp.search( "[6]", sections))
-    isotopes = flatten_json(jp.search( "[7]", sections))
-    references = flatten_json(jp.search("[0].Reference" , record))
+    identifiers_sect = jp.search( "[*] | [?TOCHeading == 'Identifiers']", sections)
+    properties_sect = jp.search( "[*] | [?TOCHeading == 'Properties']", sections)
+    history_sect = jp.search( "[*] | [?TOCHeading == 'History']", sections)
+    description_sect = jp.search( "[*] | [?TOCHeading == 'Description']", sections)
+    uses_sect = jp.search( "[*] | [?TOCHeading == 'Uses']", sections)
+    sources_sect = jp.search( "[*] | [?TOCHeading == 'Sources']", sections)
+    compounds_sect = jp.search( "[*] | [?TOCHeading == 'Compounds']", sections)
+    isotopes_sect = jp.search( "[*] | [?TOCHeading == 'Isotopes']", sections)
+    references_sect = jp.search("[0].Reference" , record)
+
+    # identifiers_old = flatten_json(jp.search( "[0]", sections))
+
+    identifiers = flatten_json(identifiers_sect[0])
+    properties = flatten_json(properties_sect[0])
+    history = flatten_json(history_sect[0])
+    description = flatten_json(description_sect[0])
+    uses = flatten_json(uses_sect[0])
+    sources = flatten_json(sources_sect[0])
+    compounds = flatten_json(compounds_sect[0])
+    isotopes = flatten_json(isotopes_sect[0])
+    references = flatten_json(references_sect[0])
+    
 
     identifiers_id = db.Identifiers.insert_one(identifiers).inserted_id
     properties_id = db.Properties.insert_one(properties).inserted_id
@@ -68,4 +81,4 @@ for recordNumber in range(6, 21):
     isotopes_id = db.Isotopes.insert_one(isotopes).inserted_id
     references_id = db.References.insert_one(references).inserted_id
 
-print(identifiers_id)
+# print(identifiers_id)
