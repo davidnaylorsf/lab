@@ -55,7 +55,7 @@ for recordNumber in range(6, 21):
     uses = flatten_json(jp.search( "[4]", sections))
     sources = flatten_json(jp.search( "[5]", sections))
     compounds = flatten_json(jp.search( "[6]", sections))
-    isotopes = flatten_json(jp.search( "[6]", sections))
+    isotopes = flatten_json(jp.search( "[7]", sections))
     references = flatten_json(jp.search("[0].Reference" , record))
 
     identifiers_id = db.Identifiers.insert_one(identifiers).inserted_id
