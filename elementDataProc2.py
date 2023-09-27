@@ -42,7 +42,7 @@ def getRecord(recordNumber, sourceData):
 with open('ELEMENTS_v2.json') as f:
     data = json.load(f)
 
-for recordNumber in range(2, 5):
+for recordNumber in range(1, 21):
     
     record = getRecord(recordNumber, data)
 

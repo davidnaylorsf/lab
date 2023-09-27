@@ -9,6 +9,6 @@ sectionCollectionNames = ['History', 'Sources', 'Properties', 'Isotopes', 'Ident
 for collectionName in sectionCollectionNames:
   docCount = db[collectionName].estimated_document_count()
   print("Collection: " + collectionName + " holds " + str(docCount) + " documents.")
-  db[collectionName].delete_many({})
-  docCount = db[collectionName].estimated_document_count()
-  print("Collection: " + collectionName + " holds " + str(docCount) + " documents.")
+  # db[collectionName].delete_many({})
+  # docCount = db[collectionName].estimated_document_count()
+  # print("Collection: " + collectionName + " holds " + str(docCount) + " documents.")
