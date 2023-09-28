@@ -12,6 +12,6 @@ for collectionName in sectionCollectionNames:
   print("Collection: " + collectionName + " holds " + str(docCount) + " documents.")
 
   # Clear Collections by Name - Uncomment as needed
-  # db[collectionName].delete_many({})
-  # docCount = db[collectionName].estimated_document_count()
-  # print("Collection: " + collectionName + " holds " + str(docCount) + " documents.")
+  db[collectionName].delete_many({})
+  docCount = db[collectionName].estimated_document_count()
+  print("Collection: " + collectionName + " holds " + str(docCount) + " documents.")
