@@ -45,13 +45,21 @@ with open('ELEMENTS_v2.json') as f:
 for recordNumber in range(1, 21):
     
     record = getRecord(recordNumber, data)
+    recType = jp.search("[0].RecordType" , record)
+    recNumber = jp.search("[0].RecordNumber" , record)
+    recTitle = jp.search("[0].RecordTitle" , record)
+    # record_meta in preparation for adding
+    record_meta = {'RecordType': recType, 'RecordNumber': recNumber, 'RecordTitle': recTitle}
+
 
     sections = jp.search("[0].Section" , record)
     TOCHeadings = jp.search("[*].TOCHeading", sections)
 
     references_sect = jp.search("[0].Reference" , record)
-    references = flatten_json(references_sect[0])
+    references = flatten_json(references_sect)
+
     references_id = db.References.insert_one(references).inserted_id
+    # print("reference_id: " + str(references_id))
 
     for TOCHeading in TOCHeadings:
         # exampleQuery = "[*] | [?TOCHeading == 'Identifiers']"
