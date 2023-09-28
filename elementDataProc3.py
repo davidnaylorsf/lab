@@ -13,7 +13,9 @@ from pymongo import MongoClient
 client = MongoClient('mongodb://192.168.1.239:27017/')
 db = client.Elements_PubChem
 coll = db.ElementSections
-
+# The updateDB Boolean is used to control if MongoDB updates are performed.
+# This is helpful while testing and debugging, to turn off unneeded DB updates.
+updateDB = False
 
 def getRecord(recordNumber, sourceData):
     queryStr = "[*].Record | [?RecordNumber == `" + str(recordNumber) + "`]"
@@ -35,11 +37,11 @@ for recordNumber in range(1, 21):
     sections = jp.search("[0].Section" , record)
     TOCHeadings = jp.search("[*].TOCHeading", sections)
 
-    references_sect = jp.search("[0].Reference" , record)
-    references_ids = db.References.insert_many(references_sect).inserted_ids
+    references = jp.search("[0].Reference" , record)
+    if updateDB:
+      references_ids = db.References.insert_many(references).inserted_ids
 
     for TOCHeading in TOCHeadings:
-        # exampleQuery = "[*] | [?TOCHeading == 'Identifiers']"
         sectionQuery = "[*] | [?TOCHeading == '" + TOCHeading + "']"
 
         found_sections = jp.search( sectionQuery, sections)
@@ -48,9 +50,8 @@ for recordNumber in range(1, 21):
         # The use of this first_found_section is a temporary approach to aid in debugging
         # and to more easily test the conditions under which more than one is found
         first_found_section = found_sections[0]
-        doc_id = db[TOCHeading].insert_one(first_found_section).inserted_id
-
-
+        if updateDB:
+          doc_id = db[TOCHeading].insert_one(first_found_section).inserted_id
 
 
 
