@@ -1,0 +1,33 @@
+{
+  "unknown": {
+    "pream1": "a"
+  },
+  "data": {
+    "1": {
+      "id": 1,
+      "name": "Bitcoin",
+      "symbol": "bitcoin",
+      "cmc_rank": 1
+
+    },
+    "2": {
+      "id": 825,
+      "name": "Tether",
+      "symbol": "tether",
+      "cmc_rank": 3  
+    },
+    "3": {
+      "id": 1027,
+      "name": "Etherium",
+      "symbol": "etherium",
+      "cmc_rank": 2
+    },
+    "4": {
+      "id": 1839,
+      "name": "BNB",
+      "symbol": "bnb",
+      "cmc_rank": 5
+    }
+  }
+
+}
