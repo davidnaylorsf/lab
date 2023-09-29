@@ -28,9 +28,16 @@ for recordNumber in range(1,21):
     sections = jp.search("[0].Section" , record)
     sectionQuery = "[*] | [?TOCHeading == 'Description']"
     description = jp.search( sectionQuery, sections)
+    allSections = jp.search( "[*]", sections)
+
     information = jp.search("[0].Information" , description)
+    information2 = jp.search("[*].Information[0]" , allSections)
     value = jp.search("[0].Value" , information)
+    value2 = jp.search("[*].Value[*]" , information2)
+
     stringWithMarkup = jp.search("StringWithMarkup" , value)
+    stringWithMarkup2 = jp.search("[*].StringWithMarkup" , value2)
+    
     markup = jp.search("[*].Markup" , stringWithMarkup)
     
 
