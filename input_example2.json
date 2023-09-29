@@ -1,0 +1,14 @@
+{
+  "data":[
+    {
+      "id": "1234567",
+      "object": "charge",
+      "amount": 100,
+      "billing_details": {
+        "email": "apple@email.com",
+        "name": "Apple Appleby",
+        "location": "Treehouse"
+      }
+    }
+  ]
+}
