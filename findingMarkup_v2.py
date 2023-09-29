@@ -32,8 +32,10 @@ for recordNumber in range(3,4):
     values = jp.search(ValueQuery, record)
     SWMQuery = "Section[].Information[].Value[].StringWithMarkup"
     swmqs = jp.search(SWMQuery, record)
-    MarkupQuery = "Section[].Information[].Value[].StringWithMarkup[].Markup"
-    markups = jp.search(MarkupQuery, record)
-    
+    RSI_MarkupQuery = "Section[].Information[].Value[].StringWithMarkup[].Markup"
+    markups1 = jp.search(RSI_MarkupQuery, record)
+    RSSI_MarkupQuery = "Section[].Section[].Information[].Value[].StringWithMarkup[].Markup"
+    markups2 = jp.search(RSSI_MarkupQuery, record)
+
     print(str(len(informations)))
     # Comment
