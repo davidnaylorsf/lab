@@ -36,19 +36,16 @@ for recordNumber in range(1,21):
       if markups1 is not None: 
         if len(markups1) > 0:
           for markup in markups1:
-                if markup["markup"] is not None:
-                  markup['RecordTitle']=recTitle
-                  markup['RecordNumber']=recNumber
-                  markup = db.Markup.insert_one(markup).inserted_id
+              if markup["markup"] is not None:
+                markup['RecordTitle']=recTitle
+                markup['RecordNumber']=recNumber
+                markup = db.Markup.insert_one(markup).inserted_id
 
       if markups2 is not None: 
         if len(markups2) > 0:
           for markup in markups2:
-                if markup["markup"] is not None:
-                  markup['RecordTitle']=recTitle
-                  markup['RecordNumber']=recNumber
-                  markup_id = db.Markup.insert_one(markup).inserted_id
+              if markup["markup"] is not None:
+                markup['RecordTitle']=recTitle
+                markup['RecordNumber']=recNumber
+                markup_id = db.Markup.insert_one(markup).inserted_id
 
-
-    # print(str(len(informations)))
-    # Comment
