@@ -9,12 +9,9 @@ coll = db.Markup
 def processMarkup(markupDocument):
   markup = markupDocument["markup"]
   string = markupDocument["string"]
-  stringLength = len(string)
   newString = string
   startAddition = 0
-  markupItemCount = len(markup)
-  # if markupItemCount > 4:
-    # print(string)
+
   for markupItem in markup:
     start = markupItem["Start"]
     length = markupItem["Length"]
@@ -23,15 +20,16 @@ def processMarkup(markupDocument):
       type = markupItem["Type"]
       extractString = newString[start+startAddition:start+startAddition+length]
       if type == "Italics":        
-        italicLength = length
         newString = newString[:start+startAddition] + "<em>" + extractString + "</em>" + newString[start+startAddition+length:]
         #Update the value of startAddition to correct for inserted text
         startAddition = startAddition + 9
         print(newString)
       elif type == "Superscript":
-        superscriptLength = length
+        newString = newString[:start+startAddition] + "<sup>" + extractString + "</sup>" + newString[start+startAddition+length:]
+        startAddition = startAddition + 11        
       elif type == "Subscript":
-        subscriptLength = length
+        newString = newString[:start+startAddition] + "<sub>" + extractString + "</sub>" + newString[start+startAddition+length:]
+        startAddition = startAddition + 11 
       elif type == "Image":
         imageURL = markupItem["URL"]
         imageSize = markupItem["Size"]
@@ -51,7 +49,5 @@ retrievedCount = markups.retrieved
 for markupDoc in markups:
   
   htmlString = processMarkup(markupDoc)
-  markup = markupDoc["markup"]
-  string = markupDoc["string"]
   
-  markupRecTitle = markupDoc["RecordTitle"]
+
