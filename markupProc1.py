@@ -7,6 +7,8 @@ db = client.Elements_PubChem
 coll = db.Markup
 
 def processMarkup(markupDocument):
+  # This approach is based on the assumption that text sections to be processed with modifiers 
+  # do not overlap. If we discover examples of overlapping modifiers, this method will require updating.
   markup = markupDocument["markup"]
   string = markupDocument["string"]
   newString = string
@@ -47,7 +49,7 @@ markups = coll.find({})
 retrievedCount = markups.retrieved
 
 for markupDoc in markups:
-  
+  doc_id = markupDoc["_id"]
   htmlString = processMarkup(markupDoc)
-  
-
+  update_result = coll.update_one({"_id": doc_id}, {"$set": {"htmlString": htmlString}})
+  print(str(update_result))
