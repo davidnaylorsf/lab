@@ -52,4 +52,4 @@ for markupDoc in markups:
   doc_id = markupDoc["_id"]
   htmlString = processMarkup(markupDoc)
   update_result = coll.update_one({"_id": doc_id}, {"$set": {"htmlString": htmlString}})
-  print(str(update_result))
+  # print(str(update_result))
